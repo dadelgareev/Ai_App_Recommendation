@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package lamoda;
+
+service LamodaService {
+    // Метод для создания директории и CSV-файла на сервере
+    rpc CreateCategoryDirectory (CategoryRequest) returns (CategoryResponse);
+}
+
+message CategoryRequest {
+    // Название категории (например, 'man_shoes-shoes-muzhskie-botinki')
+    string name = 1;
+}
+
+message CategoryResponse {
+    // Поле для указания успешного выполнения операции
+    bool success = 1;
+}
