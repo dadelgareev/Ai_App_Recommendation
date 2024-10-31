@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package scraper;
+
+service ScraperService {
+    // Метод для отправки словаря с категориями и тегами
+    rpc SendTagsByCategory (TagsByCategoryRequest) returns (TagsByCategoryResponse);
+
+    // Метод для отправки словаря с подкатегориями
+    rpc SendSubcategoriesByCategory (SubcategoriesByCategoryRequest) returns (SubcategoriesByCategoryResponse);
+
+    // Метод для отправки строки из CSV-файла
+    rpc SendParsedCSVRow (ParsedCSVRowRequest) returns (ParsedCSVRowResponse);
+}
+
+// Сообщения для метода SendTagsByCategory
+message Tag {
+    string name = 1;
+}
+
+message TagsByCategoryRequest {
+    map<string, Tags> tags_by_category = 1;
+}
+
+message Tags {
+    repeated Tag tags = 1;
+}
+
+message TagsByCategoryResponse {
+    string status = 1;
+}
+
+// Сообщения для метода SendSubcategoriesByCategory
+message Subcategory {
+    string name = 1;
+}
+
+message SubcategoriesByCategoryRequest {
+    map<string, Subcategories> subcategories_by_category = 1;
+}
+
+message Subcategories {
+    repeated Subcategory subcategories = 1;
+}
+
+message SubcategoriesByCategoryResponse {
+    string status = 1;
+}
+
+// Сообщения для метода SendParsedCSVRow
+message ParsedCSVRowRequest {
+    string category = 1;
+    string csv_row = 2;
+}
+
+message ParsedCSVRowResponse {
+    string status = 1;
+}
