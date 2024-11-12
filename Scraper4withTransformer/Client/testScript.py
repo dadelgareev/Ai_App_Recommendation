@@ -101,7 +101,7 @@ for i in range(0, len(categories_list)):
     new_files = scraper.update_links_file_txt(f'{subcategory}.txt',href_list)
     scraper.append_to_existing_csv(new_files,f'{subcategory}.csv',"women_clothes")
 """
-
+"""
 def process_category(scraper, main_category, category_info):
     href_list = []
 
@@ -140,3 +140,54 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
 
     for future in concurrent.futures.as_completed(futures):
         print(f"Категория обработана с результатом: {future.result()}")
+"""
+
+categories_list = scraper.get_full_width_elements(scraper.list_categories["women_clothes"])
+for i in range(1, 2):
+    href_list = list()
+
+    category_name = categories_list[i].get("category_name", 'Не указано')
+    category_url = categories_list[i].get("category_url", 'Не указано')
+    item_count = categories_list[i].get("item_count", 'Не указано')
+
+    category_short_url = category_url.split('/')[3]
+    subcategory = f'{"women_clothes"}-{category_short_url}'
+    scraper.base_url = 'https://www.lamoda.ru' + category_url
+    for j in range(1, 2):
+        scraper.get_href_list(j, href_list)
+        print(f"Категория - {category_name}, {j} - страничка была загружена")
+
+    dublicates = scraper.find_duplicates(href_list)
+    if dublicates:
+        print(f"Дубликаты найдены: {len(dublicates)} - кол-во дубликатов")
+        href_list = scraper.remove_duplicates(href_list)
+    else:
+        print(f"Дубликаты не нйдены")
+
+    new_files = scraper.update_links_file_txt(f'{subcategory}.txt',href_list)
+    scraper.create_csv(new_files,f'{subcategory}.csv',"women_clothes")
+
+categories_list = scraper.get_full_width_elements(scraper.list_categories["women_clothes"])
+for i in range(1, 2):
+    href_list = list()
+
+    category_name = categories_list[i].get("category_name", 'Не указано')
+    category_url = categories_list[i].get("category_url", 'Не указано')
+    item_count = categories_list[i].get("item_count", 'Не указано')
+
+    category_short_url = category_url.split('/')[3]
+    subcategory = f'{"women_clothes"}-{category_short_url}'
+    scraper.base_url = 'https://www.lamoda.ru' + category_url
+    for j in range(2, 4):
+        scraper.get_href_list(j, href_list)
+        print(f"Категория - {category_name}, {j} - страничка была загружена")
+
+    dublicates = scraper.find_duplicates(href_list)
+    if dublicates:
+        print(f"Дубликаты найдены: {len(dublicates)} - кол-во дубликатов")
+        href_list = scraper.remove_duplicates(href_list)
+    else:
+        print(f"Дубликаты не нйдены")
+
+    new_files = scraper.update_links_file_txt(f'{subcategory}.txt',href_list)
+    scraper.create_and_append_csv(new_files,f'{subcategory}.csv',"women_clothes")

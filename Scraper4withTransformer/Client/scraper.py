@@ -4,6 +4,7 @@ import requests
 import csv
 from bs4 import BeautifulSoup
 from collections import Counter
+from transformerG import ImageEmbeddingProcessor
 
 class LamodaScraper:
     def __init__(self):
@@ -26,6 +27,7 @@ class LamodaScraper:
         self.actual_categories = {}
 
         self.combined_data = []
+        self.model = ImageEmbeddingProcessor()
 
     def fetch_page(self, page_number=1, custom_url=None):
         # Если передан custom_url, используем его, иначе формируем URL с номером страницы
@@ -200,143 +202,6 @@ class LamodaScraper:
             print(f"Не удалось скачать изображение: {url}. Ошибка: {e}")
         return None
 
-    def create_csv_and_download_images(self, txt_file, output_csv, images_dir, category_key):
-        """Скачивает изображения и создает CSV с путями и атрибутами."""
-
-        # Создаем директорию для картинок, если её нет
-        if not os.path.exists(images_dir):
-            os.makedirs(images_dir)
-
-        # Получаем список атрибутов для выбранной категории
-        selected_tags = list(self.tags[category_key])
-
-        # Поля CSV-файла: путь к картинке, категория, и каждый тег по отдельности
-        fieldnames = ['image_path', 'Категория'] + selected_tags
-
-        # Открываем файл с URL и создаем CSV-файл
-        with open(txt_file, 'r') as file, open(output_csv, 'w', newline='', encoding='utf-8') as csvfile:
-            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-
-            # Записываем заголовки
-            writer.writeheader()
-
-            # Проходимся по каждой ссылке в txt-файле
-            for url in file:
-                url = url.strip()  # Убираем пробелы и переносы строки
-
-                # Вызываем метод для получения атрибутов и картинок
-                result = self.get_all_atrib_from_page(url)
-
-                # Берём список URL картинок
-                image_urls = result.get('image_urls', [])
-
-                # Берём атрибуты
-                attributes = result.get('attributes', {})
-
-                # Берем категории
-                categories = result.get('categories', {})
-
-                # Определяем категорию
-                category = list(categories.keys())[0] if categories else 'Не указано'
-
-                # Скачиваем и записываем данные для каждой картинки
-                for i, image_url in enumerate(image_urls):
-                    image_name = f'image_{i}_{os.path.basename(image_url)}'
-                    image_path = self.download_image(image_url, images_dir, image_name)
-
-                    # Составляем строку данных с выбранными тегами
-                    row_data = {'image_path': image_path, 'Категория': category}
-                    for tag in selected_tags:
-                        row_data[tag] = attributes.get(tag, 'Не указано')
-
-                    if image_path:
-                        writer.writerow(row_data)
-
-    def update_links_file(self, filename, page=1):
-        # Загрузка ссылок из существующего файла, если он есть
-        if os.path.exists(filename):
-            with open(filename, "r") as file:
-                self.current_links = set(line.strip() for line in file)
-
-        # Парсим новые ссылки с указанной страницы и URL
-        parsed_links = set(self.get_href_list(page=page))
-
-        # Определяем новые ссылки
-        new_links = parsed_links - self.current_links
-
-        # Если есть новые ссылки, добавляем их и обновляем файл
-        if new_links:
-            with open(filename, "a") as file:
-                for link in new_links:
-                    file.write(link + "\n")
-            print(f"{len(new_links)} новых ссылок добавлено.")
-        else:
-            print("Новых ссылок не найдено.")
-
-        return new_links
-
-    def update_links_file_and_dataset(self, links_filename, dataset_filename, images_dir, page=1,
-                                      category="man_shoes"):
-        """Обновляет файл ссылок, добавляет новые ссылки и дополняет датасет CSV."""
-
-        # Загружаем существующие ссылки, если файл уже создан
-        current_links = set()
-        if os.path.exists(links_filename):
-            with open(links_filename, "r") as file:
-                current_links = set(line.strip() for line in file)
-
-        # Получаем новые ссылки с указанной страницы и URL
-        parsed_links = set(self.get_href_list(page=page))
-        new_links = parsed_links - current_links  # Определяем новые ссылки
-
-        # Если есть новые ссылки, добавляем их в файл
-        if new_links:
-            with open(links_filename, "a") as file:
-                for link in new_links:
-                    file.write(link + "\n")
-            print(f"{len(new_links)} новых ссылок добавлено.")
-        else:
-            print("Новых ссылок не найдено.")
-            return
-
-        # Теперь дополняем датасет для новых ссылок
-        self.append_to_dataset(new_links, dataset_filename, images_dir, category)
-
-    def append_to_dataset(self, links, dataset_filename, images_dir, category):
-        """Дополняет датасет CSV новыми записями для указанных ссылок."""
-
-        # Определяем нужные теги для категории
-        tags = [tag.strip() for tag in self.tags.get(category, [])]
-        fieldnames = ['image_path', 'Категория'] + tags  # Заголовки CSV: путь, категория, теги
-
-        # Открываем CSV в режиме добавления (append)
-        with open(dataset_filename, "a", newline='', encoding='utf-8') as csvfile:
-            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-
-            # Обходим каждую ссылку
-            for url in links:
-                result = self.get_all_atrib_from_page(url)  # Получаем данные по ссылке
-
-                # Получаем URL изображений и атрибуты
-                image_urls = result.get('image_urls', [])
-                attributes = result.get('attributes', {})
-                categories = result.get('categories', {})
-
-                # Извлекаем значение категории
-                category_name = list(categories.keys())[0] if categories else 'Не указано'
-
-                # Формируем строку для каждого изображения
-                for i, image_url in enumerate(image_urls):
-                    image_name = f'image_{i}_{os.path.basename(image_url)}'
-                    image_path = self.download_image(image_url, images_dir, image_name)
-
-                    # Составляем строку данных: путь к изображению, категория, теги
-                    row = {'image_path': image_path, 'Категория': category_name}
-                    row.update({tag: attributes.get(tag, 'Не указано') for tag in tags})
-
-                    if image_path:
-                        writer.writerow(row)
-
     def populate_actual_categories(self):
         self.actual_categories = {}  # Инициализируем словарь
 
@@ -387,50 +252,6 @@ class LamodaScraper:
 
         return data_rows
 
-    def create_only_csv(self, txt_file, output_csv, category_key):
-        """Создает CSV файл с ссылками, категориями и тегами без загрузки изображений."""
-
-        # Получаем список атрибутов для выбранной категории
-        selected_tags = list(self.tags[category_key])
-
-        # Поля CSV-файла: ссылка на картинку, категория, и каждый тег по отдельности
-        fieldnames = ['image_url', 'id', 'Категория'] + selected_tags
-
-        # Открываем файл с URL и создаем CSV-файл
-        with open(txt_file, 'r') as file, open(output_csv, 'w', newline='', encoding='utf-8') as csvfile:
-            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-
-            # Записываем заголовки
-            writer.writeheader()
-
-            # Проходимся по каждой ссылке в txt-файле
-            for url in file:
-                url = url.strip()  # Убираем пробелы и переносы строки
-
-                # Получаем атрибуты и изображения для текущей ссылки
-                result = self.get_all_atrib_from_page(url)
-
-                # Берём список URL картинок
-                image_urls = result.get('image_urls', [])
-
-                # Берём атрибуты
-                attributes = result.get('attributes', {})
-
-                # Берем категории
-                categories = result.get('categories', {})
-
-                # Определяем категорию
-                category = list(categories.keys())[0] if categories else 'Не указано'
-
-                # Записываем данные для каждой картинки
-                for image_url in image_urls:
-                    # Составляем строку данных с выбранными тегами
-                    row_data = {'image_url': image_url, 'id': image_url.split('/')[6].split('_')[0],'Категория': category}
-                    for tag in selected_tags:
-                        row_data[tag] = attributes.get(tag, 'Не указано')
-
-                    # Записываем строку в CSV
-                    writer.writerow(row_data)
 
     def combine_category_data(self):
         self.combined_data = []
@@ -440,15 +261,14 @@ class LamodaScraper:
                 self.combined_data.append([main_category, subcategory, ','.join(tags)])
         return self.combined_data
 
-    def append_to_existing_csv(self, new_links, output_csv, category_key):
-        """Добавляет новые ссылки в существующий CSV-файл с категориями и тегами без загрузки изображений.
-           Скачивает изображения в директорию с именем CSV-файла, если они отсутствуют."""
+    def create_csv(self, new_links, output_csv, category_key):
+        """Добавляет новые ссылки в существующий CSV-файл с категориями, тегами, нормой эмбеддинга и источником."""
 
         new_tags = []
         selected_tags = list(self.tags[category_key])  # Получаем список атрибутов для выбранной категории
 
-        # Поля CSV-файла: ссылка на картинку, ID, категория и теги
-        fieldnames = ['image_url', 'id', 'Категория'] + selected_tags
+        # Поля CSV-файла: ссылка на картинку, ID, категория, норма эмбеддинга, источник и теги
+        fieldnames = ['image_url', 'id', 'Категория', 'embedding_norm', 'Источник'] + selected_tags
         file_exists = os.path.isfile(output_csv)
 
         # Создание директории для изображений на основе имени CSV-файла (без расширения)
@@ -491,19 +311,33 @@ class LamodaScraper:
                     if not os.path.exists(image_path):  # Скачиваем только если файла нет
                         self.download_image(image_url, images_dir, image_name)
 
-                    # Составляем строку данных с выбранными тегами
+                    # Получаем вектор эмбеддинга
+                    embedding = self.model.get_embedding(image_path)
+                    if embedding is not None:
+                        # Преобразуем тензор эмбеддинга в список, а затем в строку для записи в CSV
+                        embedding_str = ','.join(map(str, embedding.cpu().numpy()))
+                    else:
+                        embedding_str = 'Ошибка'
+
+                    # Составляем строку данных с выбранными тегами, нормой эмбеддинга и источником
                     row_data = {
                         'image_url': image_url,
                         'id': image_url.split('/')[6].split('_')[0],
-                        'Категория': category
+                        'Категория': category,
+                        'embedding_norm': "None",
+                        'Источник': 'Lamoda'
                     }
-                    temp_tags.extend([image_url, image_url.split('/')[6].split('_')[0], category])
 
+                    # Добавляем теги для выбранной категории
                     for tag in selected_tags:
                         row_data[tag] = attributes.get(tag, 'Не указано')
+
+                    # Преобразуем tags в строку и добавляем в new_tags
+                    temp_tags.extend([image_url, image_url.split('/')[6].split('_')[0], category, embedding_str, 'Lamoda'])
+                    for tag in selected_tags:
                         temp_tags.append(attributes.get(tag, 'Не указано'))
 
-                    # Преобразуем temp_tags в строку и добавляем в new_tags
+                    # Добавляем сформированную строку тегов
                     new_tags.append(','.join(temp_tags))
 
                     # Записываем строку в CSV
@@ -511,6 +345,80 @@ class LamodaScraper:
 
         print("Обновление CSV завершено.")
         return new_tags
+
+
+    def create_and_append_csv(self, new_links, output_csv, category_key):
+        """Добавляет новые ссылки в существующий и новый CSV-файлы с категориями, тегами, эмбеддингом и источником."""
+
+        # Создаём имя нового CSV-файла с припиской '_temp'
+        temp_output_csv = os.path.splitext(output_csv)[0] + '_temp.csv'
+        selected_tags = list(self.tags[category_key])  # Получаем список атрибутов для выбранной категории
+
+        # Поля CSV-файла
+        fieldnames = ['image_url', 'id', 'Категория', 'embedding', 'Источник'] + selected_tags
+
+        # Создание директории для изображений, если ещё не существует
+        images_dir = os.path.splitext(output_csv)[0]
+        if not os.path.exists(images_dir):
+            os.makedirs(images_dir)
+
+        # Открываем исходный и новый файлы
+        with open(output_csv, 'a', newline='', encoding='utf-8') as old_csvfile, \
+                open(temp_output_csv, 'w', newline='', encoding='utf-8') as new_csvfile:
+
+            # Создаем писателей для обоих файлов
+            old_writer = csv.DictWriter(old_csvfile, fieldnames=fieldnames)
+            new_writer = csv.DictWriter(new_csvfile, fieldnames=fieldnames)
+
+            # Записываем заголовок в новый файл, если только он был создан
+            new_writer.writeheader()
+
+            # Проходимся по каждой новой ссылке
+            for url in new_links:
+                url = url.strip()
+
+                try:
+                    result = self.get_all_atrib_from_page(url)  # Получаем атрибуты и изображения для текущей ссылки
+                except Exception as e:
+                    print(f"Ошибка при обработке URL {url}: {e}")
+                    continue
+
+                # Берём список URL картинок
+                image_urls = result.get('image_urls', [])
+                attributes = result.get('attributes', {})
+                categories = result.get('categories', {})
+                category = list(categories.keys())[0] if categories else 'Не указано'
+
+                # Записываем данные для каждой картинки
+                for image_url in image_urls:
+                    # Загружаем изображение в директорию
+                    image_name = image_url.split('/')[-1]
+                    image_path = os.path.join(images_dir, image_name)
+                    if not os.path.exists(image_path):
+                        self.download_image(image_url, images_dir, image_name)
+
+                    # Получаем вектор эмбеддинга и преобразуем в строку для записи
+                    embedding = self.model.get_embedding(image_path)
+                    embedding_str = ','.join(map(str, embedding.cpu().numpy())) if embedding is not None else 'Ошибка'
+
+                    # Составляем строку данных
+                    row_data = {
+                        'image_url': image_url,
+                        'id': image_url.split('/')[6].split('_')[0],
+                        'Категория': category,
+                        'embedding': "None",
+                        'Источник': 'Lamoda'
+                    }
+
+                    # Добавляем теги для выбранной категории
+                    for tag in selected_tags:
+                        row_data[tag] = attributes.get(tag, 'Не указано')
+
+                    # Записываем строку в оба CSV файла
+                    old_writer.writerow(row_data)
+                    new_writer.writerow(row_data)
+
+        print(f"Данные добавлены в '{output_csv}' и '{temp_output_csv}'")
 
     def update_links_file_txt(self, filename, parsed_links):
         """

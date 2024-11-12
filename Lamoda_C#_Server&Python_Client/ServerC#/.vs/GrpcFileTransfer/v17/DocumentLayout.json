@@ -1,0 +1,91 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Adel\\Ai_App_Recommendation\\Lamoda_C#_Server\u0026Python_Client\\ServerC#\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B5DBF8F8-438D-43CC-8D8E-83343F46024A}|GrpcFileTransfer.csproj|c:\\users\\adel\\ai_app_recommendation\\lamoda_c#_server\u0026python_client\\serverc#\\services\\filetransferservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B5DBF8F8-438D-43CC-8D8E-83343F46024A}|GrpcFileTransfer.csproj|solutionrelative:services\\filetransferservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B5DBF8F8-438D-43CC-8D8E-83343F46024A}|GrpcFileTransfer.csproj|c:\\users\\adel\\ai_app_recommendation\\lamoda_c#_server\u0026python_client\\serverc#\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B5DBF8F8-438D-43CC-8D8E-83343F46024A}|GrpcFileTransfer.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B5DBF8F8-438D-43CC-8D8E-83343F46024A}|GrpcFileTransfer.csproj|c:\\users\\adel\\ai_app_recommendation\\lamoda_c#_server\u0026python_client\\serverc#\\protos\\scrapercsv.proto||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{B5DBF8F8-438D-43CC-8D8E-83343F46024A}|GrpcFileTransfer.csproj|solutionrelative:protos\\scrapercsv.proto||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B5DBF8F8-438D-43CC-8D8E-83343F46024A}|GrpcFileTransfer.csproj|c:\\users\\adel\\ai_app_recommendation\\lamoda_c#_server\u0026python_client\\serverc#\\grpcfiletransfer.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{B5DBF8F8-438D-43CC-8D8E-83343F46024A}|GrpcFileTransfer.csproj|solutionrelative:grpcfiletransfer.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 273,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "GrpcFileTransfer.csproj",
+              "DocumentMoniker": "C:\\Users\\Adel\\Ai_App_Recommendation\\Lamoda_C#_Server\u0026Python_Client\\ServerC#\\GrpcFileTransfer.csproj",
+              "RelativeDocumentMoniker": "GrpcFileTransfer.csproj",
+              "ToolTip": "C:\\Users\\Adel\\Ai_App_Recommendation\\Lamoda_C#_Server\u0026Python_Client\\ServerC#\\GrpcFileTransfer.csproj",
+              "RelativeToolTip": "GrpcFileTransfer.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-11-11T10:38:55.616Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Adel\\Ai_App_Recommendation\\Lamoda_C#_Server\u0026Python_Client\\ServerC#\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\Adel\\Ai_App_Recommendation\\Lamoda_C#_Server\u0026Python_Client\\ServerC#\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AQIAACIAAAAAAAAAAAAgwDUAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-11T10:38:30.289Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "FileTransferService.cs",
+              "DocumentMoniker": "C:\\Users\\Adel\\Ai_App_Recommendation\\Lamoda_C#_Server\u0026Python_Client\\ServerC#\\Services\\FileTransferService.cs",
+              "RelativeDocumentMoniker": "Services\\FileTransferService.cs",
+              "ToolTip": "C:\\Users\\Adel\\Ai_App_Recommendation\\Lamoda_C#_Server\u0026Python_Client\\ServerC#\\Services\\FileTransferService.cs",
+              "RelativeToolTip": "Services\\FileTransferService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAA3AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-11T10:37:56.177Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "scraperCSV.proto",
+              "DocumentMoniker": "C:\\Users\\Adel\\Ai_App_Recommendation\\Lamoda_C#_Server\u0026Python_Client\\ServerC#\\Protos\\scraperCSV.proto",
+              "RelativeDocumentMoniker": "Protos\\scraperCSV.proto",
+              "ToolTip": "C:\\Users\\Adel\\Ai_App_Recommendation\\Lamoda_C#_Server\u0026Python_Client\\ServerC#\\Protos\\scraperCSV.proto",
+              "RelativeToolTip": "Protos\\scraperCSV.proto",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003853|",
+              "WhenOpened": "2024-11-11T10:37:36.16Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
