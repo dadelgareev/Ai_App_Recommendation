@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "LshOAKZkd6GOHUO7r0DKm3r0mn78QW26Gy0nL4ReLwE=",
+  "Source": "GrpcFileTransfer",
+  "BasePath": "_content/GrpcFileTransfer",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcFileTransfer";
+
+service FileTransfer {
+  rpc UploadCSV (UploadRequest) returns (UploadResponse);
+}
+
+message UploadRequest {
+  bytes file_content = 1;  // содержимое CSV-файла в виде байтов
+  string file_name = 2;    // имя файла
+}
+
+message UploadResponse {
+  string message = 1;      // сообщение о статусе загрузки
+}

@@ -1,0 +1,15 @@
+C:\Users\Adel\Ai_App_Recommendation\Lamoda_C#_Server&Python_Client\ServerC#\ServerC#\publish\GrpcFileTransfer.exe
+C:\Users\Adel\Ai_App_Recommendation\Lamoda_C#_Server&Python_Client\ServerC#\ServerC#\publish\ServerC#\publish\web.config
+C:\Users\Adel\Ai_App_Recommendation\Lamoda_C#_Server&Python_Client\ServerC#\ServerC#\publish\ServerC#\publish\GrpcFileTransfer.deps.json
+C:\Users\Adel\Ai_App_Recommendation\Lamoda_C#_Server&Python_Client\ServerC#\ServerC#\publish\ServerC#\publish\GrpcFileTransfer.runtimeconfig.json
+C:\Users\Adel\Ai_App_Recommendation\Lamoda_C#_Server&Python_Client\ServerC#\ServerC#\publish\GrpcFileTransfer.dll
+C:\Users\Adel\Ai_App_Recommendation\Lamoda_C#_Server&Python_Client\ServerC#\ServerC#\publish\GrpcFileTransfer.deps.json
+C:\Users\Adel\Ai_App_Recommendation\Lamoda_C#_Server&Python_Client\ServerC#\ServerC#\publish\GrpcFileTransfer.runtimeconfig.json
+C:\Users\Adel\Ai_App_Recommendation\Lamoda_C#_Server&Python_Client\ServerC#\ServerC#\publish\GrpcFileTransfer.pdb
+C:\Users\Adel\Ai_App_Recommendation\Lamoda_C#_Server&Python_Client\ServerC#\ServerC#\publish\Google.Protobuf.dll
+C:\Users\Adel\Ai_App_Recommendation\Lamoda_C#_Server&Python_Client\ServerC#\ServerC#\publish\Grpc.AspNetCore.Server.dll
+C:\Users\Adel\Ai_App_Recommendation\Lamoda_C#_Server&Python_Client\ServerC#\ServerC#\publish\Grpc.AspNetCore.Server.ClientFactory.dll
+C:\Users\Adel\Ai_App_Recommendation\Lamoda_C#_Server&Python_Client\ServerC#\ServerC#\publish\Grpc.Core.Api.dll
+C:\Users\Adel\Ai_App_Recommendation\Lamoda_C#_Server&Python_Client\ServerC#\ServerC#\publish\Grpc.Net.Client.dll
+C:\Users\Adel\Ai_App_Recommendation\Lamoda_C#_Server&Python_Client\ServerC#\ServerC#\publish\Grpc.Net.ClientFactory.dll
+C:\Users\Adel\Ai_App_Recommendation\Lamoda_C#_Server&Python_Client\ServerC#\ServerC#\publish\Grpc.Net.Common.dll
