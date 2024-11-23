@@ -1,0 +1,3 @@
+obj\Debug\net8.0\Protos/Processingdatabase.cs \
+obj\Debug\net8.0\Protos/ProcessingdatabaseGrpc.cs: Protos/fileexchange.proto\
+ Protos/processingdatabase.proto

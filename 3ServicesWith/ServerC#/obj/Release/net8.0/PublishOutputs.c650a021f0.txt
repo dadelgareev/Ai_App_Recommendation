@@ -1,0 +1,12 @@
+C:\Users\Adel\source\repos\GrpcFileTransfer\ServerC#\publish\GrpcFileTransfer.exe
+C:\Users\Adel\source\repos\GrpcFileTransfer\ServerC#\publish\GrpcFileTransfer.dll
+C:\Users\Adel\source\repos\GrpcFileTransfer\ServerC#\publish\GrpcFileTransfer.deps.json
+C:\Users\Adel\source\repos\GrpcFileTransfer\ServerC#\publish\GrpcFileTransfer.runtimeconfig.json
+C:\Users\Adel\source\repos\GrpcFileTransfer\ServerC#\publish\GrpcFileTransfer.pdb
+C:\Users\Adel\source\repos\GrpcFileTransfer\ServerC#\publish\Google.Protobuf.dll
+C:\Users\Adel\source\repos\GrpcFileTransfer\ServerC#\publish\Grpc.AspNetCore.Server.dll
+C:\Users\Adel\source\repos\GrpcFileTransfer\ServerC#\publish\Grpc.AspNetCore.Server.ClientFactory.dll
+C:\Users\Adel\source\repos\GrpcFileTransfer\ServerC#\publish\Grpc.Core.Api.dll
+C:\Users\Adel\source\repos\GrpcFileTransfer\ServerC#\publish\Grpc.Net.Client.dll
+C:\Users\Adel\source\repos\GrpcFileTransfer\ServerC#\publish\Grpc.Net.ClientFactory.dll
+C:\Users\Adel\source\repos\GrpcFileTransfer\ServerC#\publish\Grpc.Net.Common.dll

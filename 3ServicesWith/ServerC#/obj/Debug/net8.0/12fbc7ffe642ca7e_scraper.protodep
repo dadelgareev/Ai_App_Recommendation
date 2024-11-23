@@ -1,0 +1,2 @@
+obj\Debug\net8.0\Protos/Scraper.cs \
+obj\Debug\net8.0\Protos/ScraperGrpc.cs: Protos/scraper.proto

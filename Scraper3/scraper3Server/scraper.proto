@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package scraper;
+
+service ScraperService {
+  // Метод 1: Передача категории, подкатегории и списка тегов
+  rpc SendCategoryInfo(CategoryInfoRequest) returns (CategoryResponse);
+
+  // Метод 2: Передача подкатегории и списка тегов
+  rpc SendSubcategoryInfo(SubcategoryInfoRequest) returns (CategoryResponse);
+
+  // Метод 3: Обновление тегов для существующей подкатегории
+  rpc UpdateSubcategoryTags(UpdateSubcategoryTagsRequest) returns (CategoryResponse);
+}
+
+// Запрос для метода 1
+message CategoryInfoRequest {
+  string category = 1;
+  string subcategory = 2;
+  string tags = 3;
+}
+
+// Запрос для метода 2
+message SubcategoryInfoRequest {
+  string subcategory = 1;
+  string tags = 2;
+}
+
+// Запрос для метода 3
+message UpdateSubcategoryTagsRequest {
+  string subcategory = 1;
+  string tags = 2;
+}
+
+// Ответ на запросы
+message CategoryResponse {
+  bool success = 1;
+  string message = 2;
+}

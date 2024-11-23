@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+service ImageEmbeddingService {
+    rpc ProcessImage (EmbeddingRequest) returns (EmbeddingResponse);
+}
+
+message EmbeddingRequest {
+    string image_name = 1;      // Название файла изображения
+    bytes image_data = 2;       // Содержимое изображения в байтах
+}
+
+message EmbeddingResponse {
+    string embedding = 1;       // Эмбеддинг в виде строки
+}
