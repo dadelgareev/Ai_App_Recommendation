@@ -199,8 +199,47 @@ for i in range(1, 2):
     new_files = scraper.update_links_file_txt(f'{subcategory}.txt',href_list)
     scraper.create_and_append_csv(new_files,f'{subcategory}.csv',"women_clothes")
 """
+
 """
-html = scraper.fetch_page(1,  "https://www.lamoda.ru//p/mp002xw1819q/clothes-loverepublic-bodi/")
+def find_paths_in_dict(data, target_tag, current_path=""):
+
+
+    paths = []
+
+    if isinstance(data, dict):
+        for key, value in data.items():
+            new_path = f"{current_path}.{key}" if current_path else key
+            if key == target_tag:
+                paths.append(new_path)
+            paths.extend(find_paths_in_dict(value, target_tag, new_path))
+
+    elif isinstance(data, list):
+        for index, item in enumerate(data):
+            new_path = f"{current_path}[{index}]"
+            paths.extend(find_paths_in_dict(item, target_tag, new_path))
+
+    return paths
+
+
+# Пример использования:
+nested_dict = {
+    "product": {
+        "brand": {
+            "title": "O'STIN",
+            "description": "Описание бренда"
+        },
+        "breadcrumbs": [
+            {"id": 4153, "name": "Женщинам"},
+            {"id": 355, "name": "Одежда"},
+            {"id": 4311, "name": "Боди c длинным рукавом"}
+        ],
+        "title": "Боди"
+    }
+}
+
+
+
+html = scraper.fetch_page(1,  "https://www.lamoda.ru/p/mp002xw18e03/clothes-kankan-bodi/")
 soup = BeautifulSoup(html, 'html.parser')
 script_tag = soup.find('script', string=lambda text: text and 'var __NUXT__' in text)
 # Извлекаем содержимое скрипта
@@ -225,7 +264,7 @@ if settings_index == -1:
 # Обрезаем строку между вторым 'payload' и 'settings'
 payload_str = script_content[second_payload_index + len('payload') + 1:settings_index].strip()
 # Преобразуем строку в валидный JSON-формат
-payload_str = payload_str.replace("'", '"')  # Заменяем одинарные кавычки на двойные
+#payload_str = payload_str.replace("'", '"')  # Заменяем одинарные кавычки на двойные
 payload_str = payload_str[:-1]
 # Преобразуем в словарь
 try:
@@ -234,7 +273,11 @@ try:
 except json.JSONDecodeError as e:
     print(f"Ошибка при преобразовании JSON: {e}")
 
-print(script_tag)
+target = "price"
+paths = find_paths_in_dict(payload_dict, target)
+print(paths)
+
+#print(script_tag)
 print(payload_str)
 print(payload_str[len(payload_str)-1])
 """

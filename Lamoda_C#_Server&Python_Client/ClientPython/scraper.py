@@ -107,7 +107,13 @@ class LamodaScraper:
         #print(soup)
         temp_dict = self.extract_payload(soup)
 
-        price = temp_dict.get('product', {}).get('prices', {}).get('onsite', {}).get('price', 'Цена не найдена')
+        price = 'Цена не найдена'
+        price_keys = ['onsite', 'original']
+
+        for key in price_keys:
+            price = temp_dict.get('product', {}).get('prices', {}).get(key, {}).get('price')
+            if price:  # Если цена найдена, выходим из цикла
+                break
 
         brand = temp_dict.get('product', {}).get('brand', {}).get('title', 'Бренд не найден')
         # Возвращаем изображения, атрибуты и категории
@@ -501,7 +507,7 @@ class LamodaScraper:
         selected_tags = list(self.tags[category_key])  # Получаем список атрибутов для выбранной категории
 
         # Поля CSV-файла
-        fieldnames = ['Источник','image_url', 'id', 'Категория', 'embedding'] + selected_tags
+        fieldnames = ['Источник','image_url', 'id', 'Категория', 'embedding', 'Цена', 'Бренд'] + selected_tags
 
         # Создание директории для изображений, если ещё не существует
         images_dir = os.path.splitext(output_csv)[0]
@@ -544,6 +550,8 @@ class LamodaScraper:
                 attributes = result.get('attributes', {})
                 categories = result.get('categories', {})
                 category = list(categories.keys())[0] if categories else 'Не указано'
+                price = result['price']
+                brand = result['brand']
 
                 # Записываем данные для каждой картинки
                 for image_url in image_urls:
@@ -567,7 +575,9 @@ class LamodaScraper:
                         'image_url': image_url,
                         'id': image_url.split('/')[6].split('_')[0],
                         'Категория': category,
-                        'embedding': ""
+                        'embedding': "",
+                        'Цена': price,
+                        'Бренд': brand
                     }
 
                     # Добавляем теги для выбранной категории
@@ -594,6 +604,8 @@ class LamodaScraper:
         :param html: HTML-код страницы
         :return: Словарь с данными из второго объекта payload
         """
+        # Парсим HTML с помощью BeautifulSoup
+        #soup = BeautifulSoup(html, 'html.parser')
 
         # Находим тег <script>, содержащий "var __NUXT__"
         script_tag = soup.find('script', string=lambda text: text and 'var __NUXT__' in text)
@@ -626,7 +638,6 @@ class LamodaScraper:
         payload_str = script_content[second_payload_index + len('payload') + 1:settings_index].strip()
 
         # Преобразуем строку в валидный JSON-формат
-        payload_str = payload_str.replace("'", '"')  # Заменяем одинарные кавычки на двойные
         payload_str = payload_str[:-1]
 
         # Преобразуем в словарь
